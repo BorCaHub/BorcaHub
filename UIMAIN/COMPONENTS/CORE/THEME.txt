@@ -4,7 +4,7 @@
     ║         UIMain / Components / File / Theme.lua                      ║
     ║                                                                      ║
     ║  Role    : The Visual Engine                                         ║
-    ║  Version : 4.0.0                                                     ║
+    ║  Version : 4.0.1                                                     ║
     ║                                                                      ║
     ║  Responsibilities:                                                   ║
     ║   • Stores all theme color palettes (13 themes)                      ║
@@ -21,6 +21,7 @@
 --  SERVICES (local cache for performance)
 -- ====================================================================
 local TweenService = game:GetService("TweenService")
+local RunService   = game:GetService("RunService")
 
 -- ====================================================================
 --  MODULE TABLE
@@ -193,43 +194,31 @@ end
 
 --- @table Themes
 --- @description Master dictionary of all available color palettes.
----   Each theme key maps to a table containing:
----   Background, Secondary, Tertiary, Quaternary, Border, BorderHover,
----   Accent, AccentHover, AccentDim, Text, TextSub, TextDim,
----   ToggleOn, ToggleOff, Knob, Success, Warning, Error, Info, Gold, ScrollBar
----   + Extended: GlowIntensity, NeonStrength, StrokeThickness, CornerRadius,
----     TransitionSpeed, ShadowOpacity
 ThemeEngine.Themes = {}
 
 -- ── Dark Theme (Default) ──
 ThemeEngine.Themes.Dark = {
-    -- Core palette
     Background   = Color3.fromRGB(11,  12,  16 ),
     Secondary    = Color3.fromRGB(17,  19,  24 ),
     Tertiary     = Color3.fromRGB(24,  27,  34 ),
     Quaternary   = Color3.fromRGB(30,  34,  48 ),
     Border       = Color3.fromRGB(31,  34,  53 ),
     BorderHover  = Color3.fromRGB(55,  60,  88 ),
-    -- Accent colors
     Accent       = Color3.fromRGB(91,  140, 255),
     AccentHover  = Color3.fromRGB(61,  110, 224),
     AccentDim    = Color3.fromRGB(91,  140, 255),
-    -- Typography
     Text         = Color3.fromRGB(232, 234, 246),
     TextSub      = Color3.fromRGB(123, 127, 168),
     TextDim      = Color3.fromRGB(63,  66,  96 ),
-    -- Toggle
     ToggleOn     = Color3.fromRGB(91,  140, 255),
     ToggleOff    = Color3.fromRGB(30,  34,  48 ),
     Knob         = Color3.fromRGB(255, 255, 255),
-    -- Semantic
     Success      = Color3.fromRGB(78,  204, 163),
     Warning      = Color3.fromRGB(240, 180, 41 ),
     Error        = Color3.fromRGB(239, 68,  68 ),
     Info         = Color3.fromRGB(91,  140, 255),
     Gold         = Color3.fromRGB(226, 184, 74 ),
     ScrollBar    = Color3.fromRGB(40,  45,  70 ),
-    -- Extended rendering properties
     GlowIntensity   = 0.3,
     NeonStrength     = 0.5,
     StrokeThickness  = 1,
@@ -517,7 +506,7 @@ ThemeEngine.Themes.Ocean = {
     ShadowOpacity    = 0.4,
 }
 
--- ── Sakura Theme (v3.0.0) ──
+-- ── Sakura Theme ──
 ThemeEngine.Themes.Sakura = {
     Background   = Color3.fromRGB(22,  14,  18 ),
     Secondary    = Color3.fromRGB(34,  20,  28 ),
@@ -548,7 +537,7 @@ ThemeEngine.Themes.Sakura = {
     ShadowOpacity    = 0.4,
 }
 
--- ── Cyber Theme (v3.0.0) ──
+-- ── Cyber Theme ──
 ThemeEngine.Themes.Cyber = {
     Background   = Color3.fromRGB(4,   6,   4  ),
     Secondary    = Color3.fromRGB(6,   10,  6  ),
@@ -579,7 +568,7 @@ ThemeEngine.Themes.Cyber = {
     ShadowOpacity    = 0.3,
 }
 
--- ── Sunset Theme (v3.0.0) ──
+-- ── Sunset Theme ──
 ThemeEngine.Themes.Sunset = {
     Background   = Color3.fromRGB(14,  8,   18 ),
     Secondary    = Color3.fromRGB(22,  12,  28 ),
@@ -614,16 +603,12 @@ ThemeEngine.Themes.Sunset = {
 --  THEME ORDER & ACCENT PRESETS
 -- ====================================================================
 
---- @table ThemeOrder
---- @description Ordered list of theme names for cycling through themes.
 ThemeEngine.ThemeOrder = {
     "Dark", "Light", "Mocha", "Aqua", "Rose",
     "Midnight", "Neon", "Crimson", "Forest", "Ocean",
     "Sakura", "Cyber", "Sunset"
 }
 
---- @table AccentPresets
---- @description Predefined accent color swatches for quick customization.
 ThemeEngine.AccentPresets = {
     { Name = "Blue",    Color = Color3.fromRGB(91,  140, 255) },
     { Name = "Purple",  Color = Color3.fromRGB(168, 85,  247) },
@@ -645,8 +630,6 @@ ThemeEngine.AccentPresets = {
 --  LOGO GRADIENT SYSTEM
 -- ====================================================================
 
---- @field LOGO_GRADIENT_A Color3 — Primary gradient color for logo badge
---- @field LOGO_GRADIENT_B Color3 — Secondary gradient color for logo badge
 ThemeEngine.LOGO_GRADIENT_A = Color3.fromRGB(91, 140, 255)
 ThemeEngine.LOGO_GRADIENT_B = Color3.fromRGB(139, 92, 246)
 
@@ -654,26 +637,25 @@ ThemeEngine.LOGO_GRADIENT_B = Color3.fromRGB(139, 92, 246)
 --- @param frame Instance — The GuiObject to apply the gradient to
 --- @description Applies the standard BorcaHub logo gradient (blue→purple)
 ---   at a 135° angle to the specified frame.
+---
+--- FIX: Sebelumnya menggunakan Instance.new() lalu FindFirstChildOfClass()
+--- yang tidak reliable. Sekarang langsung assign ke variabel.
 function ThemeEngine.ApplyLogoGradient(frame)
     local existing = frame:FindFirstChildOfClass("UIGradient")
     if existing then existing:Destroy() end
 
-    Instance.new("UIGradient", frame)
-    local grad = frame:FindFirstChildOfClass("UIGradient")
-    if grad then
-        grad.Color = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, ThemeEngine.LOGO_GRADIENT_A),
-            ColorSequenceKeypoint.new(1, ThemeEngine.LOGO_GRADIENT_B),
-        })
-        grad.Rotation = 135
-    end
+    local grad = Instance.new("UIGradient")
+    grad.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, ThemeEngine.LOGO_GRADIENT_A),
+        ColorSequenceKeypoint.new(1, ThemeEngine.LOGO_GRADIENT_B),
+    })
+    grad.Rotation = 135
+    grad.Parent = frame
 end
 
 --- @function UpdateLogoGradientColors
 --- @param colorA Color3 — New primary gradient color
 --- @param colorB Color3 — New secondary gradient color
---- @description Updates the global logo gradient colors. Call this when
----   the accent color changes to keep the logo visually consistent.
 function ThemeEngine.UpdateLogoGradientColors(colorA, colorB)
     ThemeEngine.LOGO_GRADIENT_A = colorA
     ThemeEngine.LOGO_GRADIENT_B = colorB
@@ -683,12 +665,8 @@ end
 --  NEON GLOW ENGINE
 -- ====================================================================
 
---- @class GlowEngine
---- @description Manages neon glow effects across all registered UI elements.
----   When a theme is activated, the GlowEngine dynamically modifies
----   UIStroke colors and ImageLabel shadows to produce a unified neon aesthetic.
 ThemeEngine._GlowEngine = {
-    RegisteredElements = {},   -- {element, type, originalProps}
+    RegisteredElements = {},
     Active             = true,
     PulseSpeed         = 0.02,
     PulseRange         = {0.55, 0.85},
@@ -696,11 +674,6 @@ ThemeEngine._GlowEngine = {
 
 local GE = ThemeEngine._GlowEngine
 
---- @function GlowEngine:Register
---- @param element Instance — The GUI element to track for glow effects
---- @param elementType string — "stroke" | "shadow" | "badge" | "separator"
---- @description Registers a UI element for dynamic glow management.
----   When themes change, registered elements are updated automatically.
 function GE:Register(element, elementType)
     table.insert(self.RegisteredElements, {
         Element  = element,
@@ -709,10 +682,6 @@ function GE:Register(element, elementType)
     })
 end
 
---- @function GlowEngine:Unregister
---- @param element Instance — The GUI element to stop tracking
---- @description Removes a UI element from glow tracking. Call this when
----   the element is destroyed to prevent memory leaks.
 function GE:Unregister(element)
     for i = #self.RegisteredElements, 1, -1 do
         if self.RegisteredElements[i].Element == element then
@@ -722,14 +691,9 @@ function GE:Unregister(element)
     end
 end
 
---- @function GlowEngine:ApplyThemeGlow
---- @param theme table — The theme palette to apply glow effects for
---- @description Iterates all registered elements and applies the
----   appropriate glow color based on the theme's Accent color and
----   NeonStrength property.
 function GE:ApplyThemeGlow(theme)
-    local accent = theme.Accent
-    local neonStr = theme.NeonStrength or 0.5
+    local accent   = theme.Accent
+    local neonStr  = theme.NeonStrength or 0.5
     local glowColor = ThemeEngine.GlowColor(accent, neonStr)
 
     for _, entry in ipairs(self.RegisteredElements) do
@@ -762,9 +726,6 @@ function GE:ApplyThemeGlow(theme)
     end
 end
 
---- @function GlowEngine:CleanupDead
---- @description Removes entries from RegisteredElements where the
----   element has been destroyed (Parent == nil). Call periodically.
 function GE:CleanupDead()
     for i = #self.RegisteredElements, 1, -1 do
         local el = self.RegisteredElements[i].Element
@@ -778,16 +739,8 @@ end
 --  DYNAMIC THEME APPLICATION
 -- ====================================================================
 
---- @field _registeredObjects table — All GUI objects registered for theme updates
 ThemeEngine._registeredObjects = {}
 
---- @function RegisterForThemeUpdate
---- @param obj Instance — The GUI object
---- @param property string — The property to update (e.g., "BackgroundColor3")
---- @param themeKey string — The theme key to bind to (e.g., "Background")
---- @description Registers a GUI object's property to be automatically
----   updated when the active theme changes. This enables zero-re-render
----   theme switching.
 function ThemeEngine.RegisterForThemeUpdate(obj, property, themeKey)
     table.insert(ThemeEngine._registeredObjects, {
         Object   = obj,
@@ -796,17 +749,11 @@ function ThemeEngine.RegisterForThemeUpdate(obj, property, themeKey)
     })
 end
 
---- @function ApplyThemeToAll
---- @param theme table — The theme palette to apply
---- @param animated boolean — Whether to use tweened transitions (default: true)
---- @description Applies the given theme to ALL registered objects.
----   If animated is true, uses TweenService for smooth color transitions.
----   If false, applies colors instantly. Also triggers the GlowEngine.
 function ThemeEngine.ApplyThemeToAll(theme, animated)
     if animated == nil then animated = true end
     local speed = theme.TransitionSpeed or 0.18
 
-    -- Clean up dead references first
+    -- Bersihkan referensi mati
     for i = #ThemeEngine._registeredObjects, 1, -1 do
         local entry = ThemeEngine._registeredObjects[i]
         if not entry.Object or not entry.Object.Parent then
@@ -814,11 +761,10 @@ function ThemeEngine.ApplyThemeToAll(theme, animated)
         end
     end
 
-    -- Apply theme to all registered objects
     for _, entry in ipairs(ThemeEngine._registeredObjects) do
-        local obj = entry.Object
-        local prop = entry.Property
-        local key = entry.ThemeKey
+        local obj         = entry.Object
+        local prop        = entry.Property
+        local key         = entry.ThemeKey
         local targetColor = theme[key]
 
         if targetColor and obj and obj.Parent then
@@ -834,21 +780,14 @@ function ThemeEngine.ApplyThemeToAll(theme, animated)
         end
     end
 
-    -- Apply glow effects
     GE:ApplyThemeGlow(theme)
     GE:CleanupDead()
 end
 
---- @function GetThemeByName
---- @param name string — Theme name (e.g., "Dark", "Neon", "Sakura")
---- @return table|nil — The theme palette, or nil if not found
 function ThemeEngine.GetThemeByName(name)
     return ThemeEngine.Themes[name]
 end
 
---- @function GetThemeIndex
---- @param name string — Theme name
---- @return number — Index in ThemeOrder (1-based), or 1 if not found
 function ThemeEngine.GetThemeIndex(name)
     for i, n in ipairs(ThemeEngine.ThemeOrder) do
         if n == name then return i end
@@ -856,23 +795,17 @@ function ThemeEngine.GetThemeIndex(name)
     return 1
 end
 
---- @function GetNextTheme
---- @param currentName string — Current theme name
---- @return string, table — Next theme name and palette
 function ThemeEngine.GetNextTheme(currentName)
-    local idx = ThemeEngine.GetThemeIndex(currentName)
+    local idx     = ThemeEngine.GetThemeIndex(currentName)
     local nextIdx = (idx % #ThemeEngine.ThemeOrder) + 1
-    local name = ThemeEngine.ThemeOrder[nextIdx]
+    local name    = ThemeEngine.ThemeOrder[nextIdx]
     return name, ThemeEngine.Themes[name]
 end
 
---- @function GetPrevTheme
---- @param currentName string — Current theme name
---- @return string, table — Previous theme name and palette
 function ThemeEngine.GetPrevTheme(currentName)
-    local idx = ThemeEngine.GetThemeIndex(currentName)
+    local idx     = ThemeEngine.GetThemeIndex(currentName)
     local prevIdx = ((idx - 2) % #ThemeEngine.ThemeOrder) + 1
-    local name = ThemeEngine.ThemeOrder[prevIdx]
+    local name    = ThemeEngine.ThemeOrder[prevIdx]
     return name, ThemeEngine.Themes[name]
 end
 
@@ -880,15 +813,8 @@ end
 --  ACCENT OVERRIDE SYSTEM
 -- ====================================================================
 
---- @function ApplyAccentOverride
---- @param theme table — The current theme palette (will be mutated)
---- @param accentColor Color3 — The new accent color to apply
---- @return table — The modified theme table
---- @description Overrides the accent-related colors in a theme palette.
----   Automatically computes AccentHover and AccentDim variants using
----   HSV color math. Also updates toggle and info colors for consistency.
 function ThemeEngine.ApplyAccentOverride(theme, accentColor)
-    theme.Accent     = accentColor
+    theme.Accent      = accentColor
     theme.AccentHover = ThemeEngine.DarkenColor(accentColor, 0.12)
     theme.AccentDim   = ThemeEngine.DesaturateColor(accentColor, 0.1)
     theme.ToggleOn    = accentColor
@@ -896,9 +822,6 @@ function ThemeEngine.ApplyAccentOverride(theme, accentColor)
     return theme
 end
 
---- @function FindAccentPreset
---- @param name string — Accent name (e.g., "Blue", "Gold")
---- @return table|nil — The accent preset {Name, Color}, or nil
 function ThemeEngine.FindAccentPreset(name)
     for _, preset in ipairs(ThemeEngine.AccentPresets) do
         if preset.Name:lower() == name:lower() then
@@ -916,49 +839,51 @@ end
 --- @param parent Instance — Parent frame for the separator
 --- @param theme table — Current theme palette
 --- @return Instance — The separator Frame with animated gradient
---- @description Creates a thin glowing separator line (1px tall) with
----   an animated gradient that shifts from transparent edges to
----   accent-colored center, creating a neon "scan line" effect.
+---
+--- FIX: Ganti RenderStepped:Wait() dengan task.wait() agar tidak
+--- membebani render thread untuk animasi yang tidak butuh frame-perfect.
 function ThemeEngine.CreateNeonSeparator(parent, theme)
     local sep = Instance.new("Frame")
-    sep.Name = "NeonSeparator"
-    sep.Parent = parent
-    sep.BackgroundColor3 = theme.Accent
+    sep.Name                 = "NeonSeparator"
+    sep.Parent               = parent
+    sep.BackgroundColor3     = theme.Accent
     sep.BackgroundTransparency = 0
-    sep.Position = UDim2.new(0, 0, 1, -1)
-    sep.Size = UDim2.new(1, 0, 0, 1)
-    sep.BorderSizePixel = 0
-    sep.ZIndex = (parent.ZIndex or 10) + 5
+    sep.Position             = UDim2.new(0, 0, 1, -1)
+    sep.Size                 = UDim2.new(1, 0, 0, 1)
+    sep.BorderSizePixel      = 0
+    sep.ZIndex               = (parent.ZIndex or 10) + 5
 
-    -- Animated neon gradient
     local grad = Instance.new("UIGradient")
-    grad.Parent = sep
+    grad.Parent       = sep
     grad.Transparency = NumberSequence.new({
-        NumberSequenceKeypoint.new(0, 0.9),
+        NumberSequenceKeypoint.new(0,   0.9),
         NumberSequenceKeypoint.new(0.3, 0.1),
         NumberSequenceKeypoint.new(0.7, 0.1),
-        NumberSequenceKeypoint.new(1, 0.9),
+        NumberSequenceKeypoint.new(1,   0.9),
     })
     grad.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, theme.Border),
+        ColorSequenceKeypoint.new(0,   theme.Border),
         ColorSequenceKeypoint.new(0.5, theme.Accent),
-        ColorSequenceKeypoint.new(1, theme.Border),
+        ColorSequenceKeypoint.new(1,   theme.Border),
     })
 
-    -- Animate the gradient offset for a scanning effect
+    -- FIX: Ganti RenderStepped:Wait() → task.wait()
+    --      agar tidak membebani render pipeline.
     task.spawn(function()
-        local offset = -1
+        local offset    = -1
         local direction = 1
-        while sep.Parent do
+        while sep and sep.Parent do
             offset = offset + direction * 0.008
-            if offset >= 1 then direction = -1
-            elseif offset <= -1 then direction = 1 end
+            if offset >= 1 then
+                direction = -1
+            elseif offset <= -1 then
+                direction = 1
+            end
             grad.Offset = Vector2.new(offset, 0)
-            game:GetService("RunService").RenderStepped:Wait()
+            task.wait()
         end
     end)
 
-    -- Register for theme updates
     GE:Register(sep, "separator")
 
     return sep
@@ -968,26 +893,20 @@ end
 --  TAB NEON UNDERLINE EFFECT
 -- ====================================================================
 
---- @function CreateTabNeonGlow
---- @param tabButton Instance — The tab navigation button
---- @param theme table — Current theme palette
---- @return Instance — The glow ImageLabel under the tab
---- @description Creates a subtle neon glow ImageLabel underneath a tab button
----   that pulses gently. The glow color follows the theme accent.
 function ThemeEngine.CreateTabNeonGlow(tabButton, theme)
     local glow = Instance.new("ImageLabel")
-    glow.Name = "TabNeonGlow"
-    glow.Parent = tabButton
+    glow.Name                 = "TabNeonGlow"
+    glow.Parent               = tabButton
     glow.BackgroundTransparency = 1
-    glow.AnchorPoint = Vector2.new(0.5, 1)
-    glow.Position = UDim2.new(0.5, 0, 1, 4)
-    glow.Size = UDim2.new(0.8, 0, 0, 8)
-    glow.Image = "rbxassetid://6015897843"
-    glow.ImageColor3 = theme.Accent
-    glow.ImageTransparency = 0.7
-    glow.ZIndex = tabButton.ZIndex - 1
-    glow.ScaleType = Enum.ScaleType.Slice
-    glow.SliceCenter = Rect.new(49, 49, 450, 450)
+    glow.AnchorPoint          = Vector2.new(0.5, 1)
+    glow.Position             = UDim2.new(0.5, 0, 1, 4)
+    glow.Size                 = UDim2.new(0.8, 0, 0, 8)
+    glow.Image                = "rbxassetid://6015897843"
+    glow.ImageColor3          = theme.Accent
+    glow.ImageTransparency    = 0.7
+    glow.ZIndex               = tabButton.ZIndex - 1
+    glow.ScaleType            = Enum.ScaleType.Slice
+    glow.SliceCenter          = Rect.new(49, 49, 450, 450)
 
     GE:Register(glow, "badge")
 
@@ -998,7 +917,7 @@ end
 --  VERSION & META
 -- ====================================================================
 
-ThemeEngine.Version = "4.0.0"
+ThemeEngine.Version = "4.0.1"
 ThemeEngine.Author  = "BorcaHub"
 
 -- ====================================================================
