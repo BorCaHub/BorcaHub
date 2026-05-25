@@ -4,7 +4,7 @@
     ║         UIMain / Components / File / Theme.lua                      ║
     ║                                                                      ║
     ║  Role    : The Visual Engine                                         ║
-    ║  Version : 4.0.1                                                     ║
+    ║  Version : 0.0.1                                                     ║
     ║                                                                      ║
     ║  Responsibilities:                                                   ║
     ║   • Stores all theme color palettes (13 themes)                      ║
