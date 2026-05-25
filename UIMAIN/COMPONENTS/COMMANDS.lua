@@ -4,7 +4,7 @@
     ║      UIMain / Components / Commands.lua                              ║
     ║                                                                      ║
     ║  Role    : Central Command & Callback Controller                     ║
-    ║  Version : 4.0.0                                                     ║
+    ║  Version : 4.0.1                                                     ║
     ║                                                                      ║
     ║  Responsibilities:                                                   ║
     ║   • Build the BorcaHub window via the UI Library                     ║
@@ -75,11 +75,20 @@ end
 function Commands:Init(opt)
     opt = opt or {}
 
-    local Lib       = opt.Library   or error("[Commands] Library required")
+    -- FIX: Gunakan warn + return daripada error() agar tidak crash tanpa pcall
+    local Lib = opt.Library
+    if not Lib then
+        warn("[Commands] Library required")
+        return nil
+    end
+
     local tier      = opt.Tier      or "Free"
     local gameData  = opt.GameData  or { Name = "Universal", Version = "1.0.0" }
     local keyResult = opt.KeyResult or nil
     local scriptMod = opt.Script    or nil
+
+    -- Pastikan gameData memiliki field Version
+    gameData.Version = gameData.Version or "1.0.0"
 
     self.Lib = Lib
 
@@ -104,6 +113,8 @@ function Commands:Init(opt)
     end
 
     -- ── Post-load notifications ───────────────────────────────────
+    -- FIX: Gunakan task.delay berantai daripada task.wait() di dalam task.delay
+    --      untuk menghindari potensi race condition pada beberapa environment.
     task.delay(0.6, function()
         local playerName = (keyResult and keyResult.Username)
             or LocalPlayer.Name
@@ -115,40 +126,42 @@ function Commands:Init(opt)
                 "Welcome, %s!  Game: %s  (v%s)",
                 playerName,
                 gameData.Name,
-                gameData.Version or "1.0.0"
+                gameData.Version
             ),
             Type     = tier == "Premium" and "Success" or "Info",
             Duration = 5,
         })
 
         -- Tier badge notification
-        task.wait(0.4)
-        if tier == "Premium" then
-            Lib:Notify({
-                Title    = "💎 Premium",
-                Content  = "All premium features unlocked.",
-                Type     = "Success",
-                Duration = 4,
-            })
-        else
-            Lib:Notify({
-                Title    = "🆓 Free Tier",
-                Content  = "Upgrade to Premium for more features at borcahub.xyz",
-                Type     = "Info",
-                Duration = 5,
-            })
-        end
+        task.delay(0.4, function()
+            if tier == "Premium" then
+                Lib:Notify({
+                    Title    = "💎 Premium",
+                    Content  = "All premium features unlocked.",
+                    Type     = "Success",
+                    Duration = 4,
+                })
+            else
+                Lib:Notify({
+                    Title    = "🆓 Free Tier",
+                    Content  = "Upgrade to Premium for more features at borcahub.xyz",
+                    Type     = "Info",
+                    Duration = 5,
+                })
+            end
 
-        -- Game-specific note (if any)
-        if gameData.Note then
-            task.wait(0.5)
-            Lib:Notify({
-                Title    = gameData.Name,
-                Content  = gameData.Note,
-                Type     = "Warning",
-                Duration = 5,
-            })
-        end
+            -- Game-specific note (if any)
+            if gameData.Note then
+                task.delay(0.5, function()
+                    Lib:Notify({
+                        Title    = gameData.Name,
+                        Content  = gameData.Note,
+                        Type     = "Warning",
+                        Duration = 5,
+                    })
+                end)
+            end
+        end)
     end)
 
     return Win
