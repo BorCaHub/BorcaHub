@@ -5,7 +5,7 @@
     ║                                                                      ║
     ║  Style   : BorcaHub Premium  (modern, dark, animated)                ║
     ║  Target  : Universal  (Synapse X, KRNL, Delta, Fluxus, Mobile)       ║
-    ║  Version : 3.0.0                                                     ║
+    ║  Version : 0.0.1                                                     ║
     ║                                                                      ║
     ║  v3.0.0 Changelog:                                                   ║
     ║   + 3 New Themes  : Sakura · Cyber · Sunset                          ║
