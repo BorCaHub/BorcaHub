@@ -4,7 +4,7 @@
     ║      UIMain / Components / Commands.lua                              ║
     ║                                                                      ║
     ║  Role    : Central Command & Callback Controller                     ║
-    ║  Version : 4.0.1                                                     ║
+    ║  Version : 0.0.1                                                     ║
     ║                                                                      ║
     ║  Responsibilities:                                                   ║
     ║   • Build the BorcaHub window via the UI Library                     ║
