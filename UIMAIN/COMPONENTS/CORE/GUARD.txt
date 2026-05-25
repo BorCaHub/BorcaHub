@@ -1,0 +1,181 @@
+--[[
+    ╔══════════════════════════════════════════════════════════════════════╗
+    ║                 BorcaHub UI Library  •  Guard.lua                    ║
+    ║            UIMain / Components / File / Guard.lua                    ║
+    ║                                                                      ║
+    ║  Role    : The Security & Stability Suite                            ║
+    ║  Version : 4.0.0                                                     ║
+    ║                                                                      ║
+    ║  Responsibilities:                                                   ║
+    ║   • Memory Management (Garbage Collection, Event tracking)           ║
+    ║   • Stealth Layer (Anti-Cheat bypass via gethui/CoreGui)             ║
+    ║   • Internal Error Handling (Safe pcall wrappers)                    ║
+    ║   • UI Element Tracking & Cleanup                                    ║
+    ║   • Action Logger (Console debugging)                                ║
+    ╚══════════════════════════════════════════════════════════════════════╝
+--]]
+
+local CoreGui = game:GetService("CoreGui")
+local RunService = game:GetService("RunService")
+
+--- @class Guard
+--- @description Main security and stability module for BorcaHub.
+local Guard = {
+    _connections = {},
+    _instances   = {},
+    _logs        = {},
+    _debugMode   = true,
+}
+
+-- ====================================================================
+--  LOGGER SYSTEM
+-- ====================================================================
+
+--- @function Guard.Log
+--- @param level string — "INFO", "WARN", "ERROR"
+--- @param message string — The message to log
+--- @description Logs an internal message for debugging purposes.
+function Guard.Log(level, message)
+    if not Guard._debugMode then return end
+    local formatted = string.format("[BorcaHub::%s] %s", level, message)
+    table.insert(Guard._logs, formatted)
+    
+    if level == "ERROR" then
+        warn(formatted)
+    else
+        print(formatted)
+    end
+end
+
+-- ====================================================================
+--  ERROR HANDLING (SAFE WRAPPERS)
+-- ====================================================================
+
+--- @function Guard.SafeCall
+--- @param func function — The function to execute safely
+--- @param ... any — Arguments to pass to the function
+--- @return boolean, any — Success status and result (or error message)
+--- @description Wraps a function in an internal pcall. Prevents the 
+--- UI from crashing if an action (like Code Editor parsing) fails.
+function Guard.SafeCall(func, ...)
+    local success, result = pcall(func, ...)
+    if not success then
+        Guard.Log("ERROR", "Execution failed: " .. tostring(result))
+    end
+    return success, result
+end
+
+--- @function Guard.WrapCallback
+--- @param func function — The user callback function
+--- @return function — A safely wrapped function
+--- @description Wraps user-provided callbacks (e.g. from Buttons or Toggles)
+--- to ensure errors within user code do not break the UI library.
+function Guard.WrapCallback(func)
+    return function(...)
+        if type(func) ~= "function" then return end
+        Guard.SafeCall(func, ...)
+    end
+end
+
+-- ====================================================================
+--  MEMORY MANAGEMENT & GARBAGE COLLECTION
+-- ====================================================================
+
+--- @function Guard.TrackConnection
+--- @param connection RBXScriptConnection — The event connection to track
+--- @description Registers an event connection to be disconnected upon destruction.
+function Guard.TrackConnection(connection)
+    if typeof(connection) == "RBXScriptConnection" then
+        table.insert(Guard._connections, connection)
+    end
+end
+
+--- @function Guard.TrackInstance
+--- @param instance Instance — The UI instance to track
+--- @description Registers a UI element to be destroyed upon cleanup.
+function Guard.TrackInstance(instance)
+    if typeof(instance) == "Instance" then
+        table.insert(Guard._instances, instance)
+    end
+end
+
+--- @function Guard.Connect
+--- @param signal RBXScriptSignal — The event to connect to (e.g., Button.MouseButton1Click)
+--- @param callback function — The function to run
+--- @return RBXScriptConnection
+--- @description A safe wrapper for :Connect() that automatically tracks 
+--- the connection for memory management and wraps the callback for safety.
+function Guard.Connect(signal, callback)
+    local conn = signal:Connect(Guard.WrapCallback(callback))
+    Guard.TrackConnection(conn)
+    return conn
+end
+
+--- @function Guard.GarbageCollect
+--- @description Aggressive memory cleanup. Disconnects all tracked events
+--- and destroys all tracked UI instances to prevent Memory Leaks.
+function Guard.GarbageCollect()
+    Guard.Log("INFO", "Initiating Garbage Collection...")
+    
+    local connCount = 0
+    for _, conn in ipairs(Guard._connections) do
+        if typeof(conn) == "RBXScriptConnection" and conn.Connected then
+            conn:Disconnect()
+            connCount = connCount + 1
+        end
+    end
+    Guard._connections = {}
+    
+    local instCount = 0
+    for _, inst in ipairs(Guard._instances) do
+        if typeof(inst) == "Instance" and inst.Parent then
+            inst:Destroy()
+            instCount = instCount + 1
+        end
+    end
+    Guard._instances = {}
+    
+    Guard.Log("INFO", string.format("GC Complete. Cleared %d connections, %d instances.", connCount, instCount))
+end
+
+-- ====================================================================
+--  STEALTH LAYER (ANTI-CHEAT BYPASS)
+-- ====================================================================
+
+--- @function Guard.ProtectGUI
+--- @param gui ScreenGui — The UI to protect
+--- @description Moves the UI into a secure container to avoid detection 
+--- by client-side anti-cheats that scan PlayerGui.
+function Guard.ProtectGUI(gui)
+    local success, result = pcall(function()
+        -- Attempt to use executor-specific gethui() function if available
+        if type(gethui) == "function" then
+            gui.Parent = gethui()
+            Guard.Log("INFO", "GUI Protected via gethui()")
+            return true
+        end
+        
+        -- Fallback to CoreGui if execution environment allows it
+        if RunService:IsStudio() or pcall(function() local _ = CoreGui.Name end) then
+            gui.Parent = CoreGui
+            Guard.Log("INFO", "GUI Protected via CoreGui")
+            return true
+        end
+        
+        return false
+    end)
+    
+    if not success or not result then
+        Guard.Log("WARN", "Stealth Layer failed. Falling back to unprotected PlayerGui.")
+        -- Fallback logic should be handled by the caller, 
+        -- Guard just informs that protection failed.
+        return false
+    end
+    
+    return true
+end
+
+-- ====================================================================
+--  RETURN MODULE
+-- ====================================================================
+return Guard
