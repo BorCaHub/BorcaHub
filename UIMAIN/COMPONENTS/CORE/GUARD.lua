@@ -4,7 +4,7 @@
     ║            UIMain / Components / File / Guard.lua                    ║
     ║                                                                      ║
     ║  Role    : The Security & Stability Suite                            ║
-    ║  Version : 4.1.0                                                     ║
+    ║  Version : 0.0.1                                                     ║
     ║                                                                      ║
     ║  Responsibilities:                                                   ║
     ║   • Memory Management (Garbage Collection, Event tracking)           ║
