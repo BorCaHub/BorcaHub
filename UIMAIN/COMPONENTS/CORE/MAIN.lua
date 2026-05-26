@@ -143,8 +143,8 @@ local Guard = nil
 
 pcall(function()
     if isfile and readfile then
-        ThemeEngine = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/THEME.txt"))()
-        Guard       = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/GUARD.txt"))()
+        ThemeEngine = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/THEME.lua"))()
+        Guard       = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/GUARD.lua"))()
     end
 end)
 
@@ -153,10 +153,10 @@ if not ThemeEngine then
     warn("[BorcaHub] ThemeEngine not found via readfile, attempting fallback")
     -- In a real environment, this would handle fallbacks. 
     -- We assume the loader will inject the tables directly if readfile fails.
-    ThemeEngine = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/THEME.txt"))()
+    ThemeEngine = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/THEME.lua"))()
 end
 if not Guard then
-    Guard = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/GUARD.txt"))()
+    Guard = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/GUARD.lua"))()
 end
 
 local Themes = ThemeEngine.Themes
