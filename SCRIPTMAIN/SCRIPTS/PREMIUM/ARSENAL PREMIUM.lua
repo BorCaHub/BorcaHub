@@ -689,8 +689,8 @@ BorcaSec.Memory.Stats = {
 function BorcaSec.Memory.Clean()
     if gcinfo then
         BorcaSec.Memory.Stats.MemoryBefore = gcinfo()
-        collectgarbage("collect")
-        collectgarbage("collect")
+        -- collectgarbage("collect")
+        -- collectgarbage("collect")
         BorcaSec.Memory.Stats.MemoryAfter = gcinfo()
         local freed = BorcaSec.Memory.Stats.MemoryBefore - BorcaSec.Memory.Stats.MemoryAfter
         BorcaSec.Memory.Stats.TotalFreed = BorcaSec.Memory.Stats.TotalFreed + freed
@@ -1530,6 +1530,7 @@ do local _hash50 = BorcaSec.SHA256.Hash('INTEGRITY_CHECK_BLOCK_50'); SECURE_REGI
 -- ============================================================================
 -- [ END OF BORCA SECURITY ENGINE ]
 -- ============================================================================
+
 
 
 

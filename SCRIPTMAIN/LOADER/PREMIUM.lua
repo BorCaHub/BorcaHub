@@ -1,15 +1,15 @@
 --[[
-    â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
-    â•‘         BorcaHub  â€¢  ScriptMain / Loader / PREMIUM.lua      â•‘
-    â•‘  Premium Loader â€” Key Validation â†’ Game Detection â†’ Load   â•‘
-    â•‘  Advanced Build: Integrity Checks, Anti-Tamper, Encrypted  â•‘
-    â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    Ã¢â€¢â€Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢â€”
+    Ã¢â€¢â€˜         BorcaHub  Ã¢â‚¬Â¢  ScriptMain / Loader / PREMIUM.lua      Ã¢â€¢â€˜
+    Ã¢â€¢â€˜  Premium Loader Ã¢â‚¬â€ Key Validation Ã¢â€ â€™ Game Detection Ã¢â€ â€™ Load   Ã¢â€¢â€˜
+    Ã¢â€¢â€˜  Advanced Build: Integrity Checks, Anti-Tamper, Encrypted  Ã¢â€¢â€˜
+    Ã¢â€¢Å¡Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 
     FLOW:
     1. Memory & Environment Sanitization
     2. Integrity Checks & Anti-Tamper Verification
     3. Load the Key System (KEY/MAIN.lua) securely
-    4. Validate key (cache â†’ saved file â†’ UI prompt)
+    4. Validate key (cache Ã¢â€ â€™ saved file Ã¢â€ â€™ UI prompt)
     5. If key is VALID and tier is "Premium":
        a. Destroy the key UI completely with strict confirmation
        b. Load the Game Checker (SCRIPTS/CHECKGAMEID.lua)
@@ -80,7 +80,7 @@ function SecurityCore.CheckMemoryStatus()
     local mem = Stats:GetTotalMemoryUsageMb()
     if mem > 4000 then
         warn("[BorcaHub] High memory usage detected: " .. tostring(mem) .. " MB")
-        collectgarbage("collect")
+        -- collectgarbage("collect")
     end
     return mem
 end
@@ -202,7 +202,7 @@ end
 local keyResult = PerformValidation()
 
 if not keyResult or not keyResult.Valid then
-    Notify("BorcaHub", "âŒ Key validation failed. Access denied.", 10)
+    Notify("BorcaHub", "Ã¢ÂÅ’ Key validation failed. Access denied.", 10)
     warn("[BorcaHub PREMIUM] Key validation failed:", keyResult and keyResult.Message or "No response")
     
     -- Log failed attempt
@@ -213,7 +213,7 @@ end
 local userTier = keyResult.Tier or "Free"
 
 if userTier ~= "Premium" then
-    Notify("BorcaHub", "âš  Your key is " .. userTier .. " tier. Premium access required.", 10)
+    Notify("BorcaHub", "Ã¢Å¡Â  Your key is " .. userTier .. " tier. Premium access required.", 10)
     warn("[BorcaHub PREMIUM] Key tier is", userTier, "but Premium is required.")
     
     -- Prompt user to upgrade or load free version
@@ -223,10 +223,10 @@ if userTier ~= "Premium" then
 end
 
 -- ================================================================
---  [ STEP 5: KEY VALID â€” SECURE UI DESTRUCTION ]
+--  [ STEP 5: KEY VALID Ã¢â‚¬â€ SECURE UI DESTRUCTION ]
 -- ================================================================
-print("[BorcaHub PREMIUM] âœ“ Key validated! Tier:", userTier, "| Expiry:", keyResult.Expiry)
-Notify("BorcaHub Premium", "âœ… Key valid! Tier: " .. userTier .. " | Loading Module...", 4)
+print("[BorcaHub PREMIUM] Ã¢Å“â€œ Key validated! Tier:", userTier, "| Expiry:", keyResult.Expiry)
+Notify("BorcaHub Premium", "Ã¢Å“â€¦ Key valid! Tier: " .. userTier .. " | Loading Module...", 4)
 
 -- Advanced wait ensuring rendering cycle completion
 RunService.RenderStepped:Wait()
@@ -239,7 +239,7 @@ if swept > 0 then
 end
 
 -- Secondary sweep using garbage collection hints
-collectgarbage("collect")
+-- collectgarbage("collect")
 
 -- ================================================================
 --  [ STEP 6: LOAD GAME CHECKER WITH HEURISTICS ]
@@ -271,7 +271,7 @@ end
 local validation = CheckGameID.Validate("Premium")
 
 if not validation.FileExists then
-    Notify("BorcaHub", "âš  Premium Script not found for " .. validation.GameName .. ". Falling back to Universal.", 8)
+    Notify("BorcaHub", "Ã¢Å¡Â  Premium Script not found for " .. validation.GameName .. ". Falling back to Universal.", 8)
     warn("[BorcaHub PREMIUM] Specific script not found at path:", validation.ScriptPath)
     
     local uniPath = CheckGameID.Universal and CheckGameID.Universal.Premium
@@ -286,7 +286,7 @@ if not validation.FileExists then
             loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/" .. string.gsub(uniPath, "^BorcaHub/", "")))()
         end)
         if ok then
-            Notify("BorcaHub Premium", "âœ… Universal Premium Loaded Successfully!", 5)
+            Notify("BorcaHub Premium", "Ã¢Å“â€¦ Universal Premium Loaded Successfully!", 5)
             print("[BorcaHub PREMIUM] Universal fallback script executed.")
         else
             Notify("BorcaHub Error", "Universal script execution error.", 10)
@@ -300,7 +300,7 @@ if not validation.FileExists then
 end
 
 -- Proceed with detected game script
-Notify("BorcaHub Premium", "ðŸŽ® Detected: " .. validation.GameName .. " | Initializing Premium Engine...", 4)
+Notify("BorcaHub Premium", "Ã°Å¸Å½Â® Detected: " .. validation.GameName .. " | Initializing Premium Engine...", 4)
 task.wait(0.5)
 
 -- Advanced Loading Routine
@@ -310,10 +310,10 @@ local function ExecuteScriptSecurely()
     local sEnd = tick()
     
     if loadOk then
-        print(string.format("[BorcaHub PREMIUM] âœ“ Engine injected in %.2fs: %s", (sEnd - sStart), loadMsg))
-        Notify("BorcaHub Premium", "âœ… Premium Engine Active for " .. validation.GameName .. "!", 5)
+        print(string.format("[BorcaHub PREMIUM] Ã¢Å“â€œ Engine injected in %.2fs: %s", (sEnd - sStart), loadMsg))
+        Notify("BorcaHub Premium", "Ã¢Å“â€¦ Premium Engine Active for " .. validation.GameName .. "!", 5)
     else
-        warn("[BorcaHub PREMIUM] âœ— Injection Failed:", loadMsg)
+        warn("[BorcaHub PREMIUM] Ã¢Å“â€” Injection Failed:", loadMsg)
         Notify("BorcaHub Error", "Engine Injection Failed. See Console (F9).", 10)
     end
 end
@@ -324,7 +324,7 @@ ExecuteScriptSecurely()
 --  [ LOAD COMPLETION METRICS ]
 -- ================================================================
 local loadTime = tick() - PremiumLoader.LoadStart
-print("â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•")
+print("Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â")
 print(string.format("  BorcaHub Premium Loader completed in %.2fs", loadTime))
 if #PremiumLoader.Errors > 0 then
     print("  Warnings/Errors logged during boot:")
@@ -332,7 +332,7 @@ if #PremiumLoader.Errors > 0 then
         print("  " .. tostring(i) .. ". " .. tostring(err))
     end
 end
-print("â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•")
+print("Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â")
 
 -- Infinite keep-alive background thread
 spawn(function()
@@ -340,7 +340,7 @@ spawn(function()
         task.wait(300)
         -- Periodically check memory and sweep remaining key artifacts
         if SecurityCore.CheckMemoryStatus() > 3000 then
-            collectgarbage("collect")
+            -- collectgarbage("collect")
         end
     end
 end)
@@ -1591,5 +1591,6 @@ BorcaVM.SEC_NODE_999 = { ID = 999, HASH = '0x00980613', ADDR = 0x31384484, STATE
 BorcaVM.SEC_NODE_1000 = { ID = 1000, HASH = '0x00982D08', ADDR = 0x31415899, STATE = 'SLEEP', TICK = tick(), EVAL = function() return 1000 * 1.5 end }
 
 -- [ END OF VM SUBSYSTEMS ]
+
 
 

@@ -361,8 +361,8 @@ BorcaSec.Memory.Stats = {
 function BorcaSec.Memory.Clean()
     if gcinfo then
         BorcaSec.Memory.Stats.MemoryBefore = gcinfo()
-        collectgarbage("collect")
-        collectgarbage("collect")
+        -- collectgarbage("collect")
+        -- collectgarbage("collect")
         BorcaSec.Memory.Stats.MemoryAfter = gcinfo()
         local freed = BorcaSec.Memory.Stats.MemoryBefore - BorcaSec.Memory.Stats.MemoryAfter
         BorcaSec.Memory.Stats.TotalFreed = BorcaSec.Memory.Stats.TotalFreed + freed
@@ -628,4 +628,5 @@ end)
 -- [ SECURE STATE REGISTER (MASSIVE CACHE BLOCK) ]
 -- ============================================================================
 local SECURE_REGISTER = {}
+
 

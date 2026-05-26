@@ -1,9 +1,9 @@
 --[[
-    â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
-    â•‘          BorcaHub  â€¢  ScriptMain / Loader / FREE.lua        â•‘
-    â•‘  Free Loader â€” No Key Required â†’ Game Detection â†’ Load     â•‘
-    â•‘  Advanced Build: Analytics, Auto-Optimization, Diagnostics â•‘
-    â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    Ã¢â€¢â€Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢â€”
+    Ã¢â€¢â€˜          BorcaHub  Ã¢â‚¬Â¢  ScriptMain / Loader / FREE.lua        Ã¢â€¢â€˜
+    Ã¢â€¢â€˜  Free Loader Ã¢â‚¬â€ No Key Required Ã¢â€ â€™ Game Detection Ã¢â€ â€™ Load     Ã¢â€¢â€˜
+    Ã¢â€¢â€˜  Advanced Build: Analytics, Auto-Optimization, Diagnostics Ã¢â€¢â€˜
+    Ã¢â€¢Å¡Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 
     FLOW:
     1. Memory & Environment Check (Free Tier Restrictions)
@@ -38,7 +38,7 @@ FreeLoader.LoadStart = tick()
 local ResourceCore = {}
 function ResourceCore.OptimizeMemory()
     -- Initial garbage collection sweep for lower-end machines
-    collectgarbage("collect")
+    -- collectgarbage("collect")
     local mem = Stats:GetTotalMemoryUsageMb()
     if mem > 2500 then
         print("[BorcaHub FREE] Warning: High memory detected (" .. tostring(math.floor(mem)) .. " MB). Expect potential lag.")
@@ -99,12 +99,12 @@ end
 -- ================================================================
 --  [ FREE TIER INITIALIZATION ]
 -- ================================================================
-print("â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•")
+print("Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â")
 print("  BorcaHub FREE Loader v" .. FreeLoader.Version)
 print("  Session ID: " .. FreeLoader.SessionID)
-print("â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•")
+print("Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â")
 
-Notify("BorcaHub Free", "ðŸ†“ Free Tier Loading... No Key Required.", 4)
+Notify("BorcaHub Free", "Ã°Å¸â€ â€œ Free Tier Loading... No Key Required.", 4)
 task.wait(0.5)
 
 -- ================================================================
@@ -143,7 +143,7 @@ end
 local validation = CheckGameID.Validate("Free")
 
 if not validation.FileExists then
-    Notify("BorcaHub Free", "âš  Free Script not found for " .. validation.GameName .. ". Using Universal Free.", 8)
+    Notify("BorcaHub Free", "Ã¢Å¡Â  Free Script not found for " .. validation.GameName .. ". Using Universal Free.", 8)
     warn("[BorcaHub FREE] Specific script missing at:", validation.ScriptPath)
     
     -- Fallback strategy
@@ -158,7 +158,7 @@ if not validation.FileExists then
             loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/" .. string.gsub(uniPath, "^BorcaHub/", "")))()
         end)
         if ok then
-            Notify("BorcaHub Free", "âœ… Universal Free loaded successfully!", 5)
+            Notify("BorcaHub Free", "Ã¢Å“â€¦ Universal Free loaded successfully!", 5)
             print("[BorcaHub FREE] Universal fallback executed.")
         else
             Notify("BorcaHub Error", "Universal Free execution error.", 10)
@@ -172,7 +172,7 @@ if not validation.FileExists then
 end
 
 -- Proceed with detected game script
-Notify("BorcaHub Free", "ðŸŽ® Detected: " .. validation.GameName .. " | Launching...", 4)
+Notify("BorcaHub Free", "Ã°Å¸Å½Â® Detected: " .. validation.GameName .. " | Launching...", 4)
 task.wait(0.3)
 
 local loadOk, loadMsg = CheckGameID.LoadScript("Free")
@@ -180,16 +180,16 @@ local loadOk, loadMsg = CheckGameID.LoadScript("Free")
 local loadTime = tick() - FreeLoader.LoadStart
 
 if loadOk then
-    print(string.format("[BorcaHub FREE] âœ“ Script injected in %.2fs: %s", loadTime, loadMsg))
-    Notify("BorcaHub Free", "âœ… " .. validation.GameName .. " Free Engine Active!", 5)
+    print(string.format("[BorcaHub FREE] Ã¢Å“â€œ Script injected in %.2fs: %s", loadTime, loadMsg))
+    Notify("BorcaHub Free", "Ã¢Å“â€¦ " .. validation.GameName .. " Free Engine Active!", 5)
 else
-    warn("[BorcaHub FREE] âœ— Script load failed:", loadMsg)
+    warn("[BorcaHub FREE] Ã¢Å“â€” Script load failed:", loadMsg)
     Notify("BorcaHub Error", "Script Injection Failed. Check Console.", 10)
 end
 
-print("â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•")
+print("Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â")
 print("  Free Loader Execution Complete")
-print("â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•")
+print("Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â")
 
 -- Telemetry ping placeholder (simulated)
 spawn(function()
@@ -1443,5 +1443,6 @@ BorcaVM.SEC_NODE_999 = { ID = 999, HASH = '0x00980613', ADDR = 0x31384484, STATE
 BorcaVM.SEC_NODE_1000 = { ID = 1000, HASH = '0x00982D08', ADDR = 0x31415899, STATE = 'SLEEP', TICK = tick(), EVAL = function() return 1000 * 1.5 end }
 
 -- [ END OF VM SUBSYSTEMS ]
+
 
 
