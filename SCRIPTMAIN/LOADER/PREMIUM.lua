@@ -283,7 +283,9 @@ if not validation.FileExists then
     
     if uniExists then
         local ok, msg = pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/" .. string.gsub(uniPath, "^BorcaHub/", "")))()
+            local gitPath = string.gsub(uniPath, "^BorcaHub/", "")
+            gitPath = string.gsub(gitPath, " ", "%%20")
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/" .. gitPath))()
         end)
         if ok then
             Notify("BorcaHub Premium", "Ã¢Å“â€¦ Universal Premium Loaded Successfully!", 5)

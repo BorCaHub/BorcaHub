@@ -547,6 +547,7 @@ end
 function CheckGameID.FileExists(path)
     -- Cloud mode: check if file exists on GitHub
     local gitPath = string.gsub(path, "^BorcaHub/", "")
+    gitPath = string.gsub(gitPath, " ", "%%20")
     local url = "https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/" .. gitPath
     local ok, content = pcall(function() return game:HttpGet(url) end)
     if ok and content and #content > 10 and not content:find("404: Not Found") then
@@ -602,6 +603,7 @@ function CheckGameID.LoadScript(tier)
     local ok, err = pcall(function()
         -- Cloud mode: fetch from GitHub
         local gitPath = string.gsub(validation.ScriptPath, "^BorcaHub/", "")
+        gitPath = string.gsub(gitPath, " ", "%%20")
         local url = "https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/" .. gitPath
         local source = game:HttpGet(url)
         if not source or #source < 10 or source:find("404: Not Found") then
