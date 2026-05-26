@@ -138,31 +138,31 @@ end
 --  CORE MODULES (3-File Architecture)
 -- ====================================================================
 
+-- ====================================================================
+--  CORE MODULES INITIALIZATION (GitHub Fetch)
+-- ====================================================================
+
+-- ====================================================================
+--  CORE MODULES INITIALIZATION (GitHub Fetch)
+-- ====================================================================
+
 local ThemeEngine = nil
 local Guard = nil
 
+-- Safely fetch core components directly from GitHub
 pcall(function()
-    if isfile and readfile then
-        ThemeEngine = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/THEME.lua"))()
-        Guard       = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/GUARD.lua"))()
-    end
+    ThemeEngine = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/THEME.lua"))()
+    Guard       = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/GUARD.lua"))()
 end)
 
--- Fallback for testing environments without readfile
-if not ThemeEngine then
-    warn("[BorcaHub] ThemeEngine not found via readfile, attempting fallback")
-    -- In a real environment, this would handle fallbacks. 
-    -- We assume the loader will inject the tables directly if readfile fails.
-    ThemeEngine = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/THEME.lua"))()
-end
-if not Guard then
-    Guard = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/GUARD.lua"))()
+-- Error handling if the GitHub raw links or internet connection fails
+if not ThemeEngine or not Guard then
+    error("[BorcaHub] Critical Error: Failed to fetch core components from GitHub. Please check your internet connection!")
 end
 
 local Themes = ThemeEngine.Themes
 local ThemeOrder = ThemeEngine.ThemeOrder
 local AccentPresets = ThemeEngine.AccentPresets
-
 -- ====================================================================
 --  SCREENGUI
 -- ====================================================================
