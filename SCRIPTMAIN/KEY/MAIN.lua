@@ -1,4 +1,4 @@
-﻿--[[
+--[[
     â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
     â•‘            BorcaHub  â€¢  ScriptMain / Key / Main.lua          â•‘
     â•‘  Key Validation System â€” Supabase + Expiry + 1-Player Lock  â•‘
@@ -31,7 +31,7 @@ local function SafeWrite(path, content)
 end
 
 local function SafeRead(path)
-    local ok, content = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/" .. string.gsub(path, "^BorcaHub/", "")) end)
+    local ok, content = pcall(readfile, path)
     if ok and content and content ~= "" then return content end
     return nil
 end

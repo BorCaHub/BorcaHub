@@ -1,4 +1,4 @@
-﻿--[[
+--[[
     â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
     â•‘       BorcaHub  â€¢  ScriptMain / Scripts / CHECKGAMEID.lua   â•‘
     â•‘   Game Detection Engine â€” Maps PlaceId to Script Path       â•‘
@@ -545,10 +545,17 @@ function CheckGameID.HasTag(tag)
 end
 
 function CheckGameID.FileExists(path)
-    local ok, result = pcall(isfile, path)
-    if ok then return result end
-    local rok, _ = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/" .. string.gsub(path, "^BorcaHub/", "")) end)
-    return rok
+    -- Cloud mode: check if file exists on GitHub
+    local gitPath = string.gsub(path, "^BorcaHub/", "")
+    local url = "https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/" .. gitPath
+    local ok, content = pcall(function() return game:HttpGet(url) end)
+    if ok and content and #content > 10 and not content:find("404: Not Found") then
+        return true
+    end
+    -- Fallback: check local file
+    local lok, lresult = pcall(isfile, path)
+    if lok then return lresult end
+    return false
 end
 
 -- ================================================================
@@ -593,7 +600,13 @@ function CheckGameID.LoadScript(tier)
     end
 
     local ok, err = pcall(function()
-        local source = readfile(validation.ScriptPath)
+        -- Cloud mode: fetch from GitHub
+        local gitPath = string.gsub(validation.ScriptPath, "^BorcaHub/", "")
+        local url = "https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/" .. gitPath
+        local source = game:HttpGet(url)
+        if not source or #source < 10 or source:find("404: Not Found") then
+            error("Failed to download script from GitHub")
+        end
         local fn, loadErr = loadstring(source)
         if fn then
             fn()

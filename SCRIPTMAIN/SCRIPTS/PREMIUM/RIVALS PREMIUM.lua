@@ -1,4 +1,4 @@
-﻿-- PREMIUM KEY: BORCA-PREMIUM-RIVALS-2026
+-- PREMIUM KEY: BORCA-PREMIUM-RIVALS-2026
 -- ============================================================================
 -- BORCA HUB | RIVALS PREMIUM EDITION
 -- ============================================================================

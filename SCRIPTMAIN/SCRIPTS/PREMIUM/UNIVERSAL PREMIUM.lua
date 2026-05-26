@@ -1,4 +1,4 @@
-﻿-- PREMIUM KEY: BORCA-PREMIUM-UNIVERSAL-2026
+-- PREMIUM KEY: BORCA-PREMIUM-UNIVERSAL-2026
 -- ============================================================================
 -- BORCA HUB | UNIVERSAL PREMIUM EDITION
 -- ============================================================================

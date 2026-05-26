@@ -1,4 +1,4 @@
-﻿-- PREMIUM KEY: BORCA-PREMIUM-ARSENAL-2026
+-- PREMIUM KEY: BORCA-PREMIUM-ARSENAL-2026
 -- ============================================================================
 -- BORCA HUB | ARSENAL PREMIUM EDITION
 -- ============================================================================
