@@ -7,7 +7,12 @@
 -- DATE: 2026-05-25
 -- ============================================================================
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/MAIN.lua"))()
+local scriptText = game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/MAIN.lua")
+local func, err = loadstring(scriptText)
+if not func then
+    error("ADA SYNTAX ERROR DI MAIN.lua: " .. tostring(err))
+end
+local Library = func()
 local Window = Library:CreateWindow({ Title = "BorcaHub | MM2 Premium", SubTitle = "v0.0.1 | Dev: BORCA" })
 
 -- ============================================================================

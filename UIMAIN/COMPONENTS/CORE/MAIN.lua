@@ -143,8 +143,8 @@ local Guard = nil
 
 pcall(function()
     if isfile and readfile then
-        ThemeEngine = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/THEME.lua"))()
-        Guard       = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/GUARD.lua"))()
+        ThemeEngine = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/THEME.txt"))()
+        Guard       = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/GUARD.txt"))()
     end
 end)
 
@@ -153,10 +153,10 @@ if not ThemeEngine then
     warn("[BorcaHub] ThemeEngine not found via readfile, attempting fallback")
     -- In a real environment, this would handle fallbacks. 
     -- We assume the loader will inject the tables directly if readfile fails.
-    ThemeEngine = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/THEME.lua"))()
+    ThemeEngine = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/THEME.txt"))()
 end
 if not Guard then
-    Guard = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/GUARD.lua"))()
+    Guard = loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/UIMAIN/COMPONENTS/CORE/GUARD.txt"))()
 end
 
 local Themes = ThemeEngine.Themes
@@ -1403,6 +1403,12 @@ function Library:CreateWindow(opt)
         task.wait(0.24)
         WinFrame.Visible = false
         Win._visible = false
+
+        -- Cleanup _tooltipConns to prevent memory leaks
+        for _, conn in ipairs(self._tooltipConns) do
+            pcall(function() conn:Disconnect() end)
+        end
+        self._tooltipConns = {}
     end)
 
     -- â”€â”€ TOGGLE KEY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
