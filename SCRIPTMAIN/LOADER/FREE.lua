@@ -149,14 +149,13 @@ if not validation.FileExists then
     -- Fallback strategy
     local uniPath = CheckGameID.Universal and CheckGameID.Universal.Free
     if not uniPath then
-        uniPath = "BorcaHub/SCRIPTMAIN/SCRIPTS/FREE/UNIVERSAL FREE.lua"
+        uniPath = "BorcaHub/SCRIPTMAIN/SCRIPTS/FREE/UNIVERSAL%20FREE.lua"
     end
     
     local uniExists = CheckGameID.FileExists(uniPath)
     if uniExists then
         local ok, msg = pcall(function()
             local gitPath = string.gsub(uniPath, "^BorcaHub/", "")
-            gitPath = string.gsub(gitPath, " ", "%%20")
             loadstring(game:HttpGet("https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/" .. gitPath))()
         end)
         if ok then
@@ -194,9 +193,8 @@ print("  Free Loader Execution Complete")
 print("Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â")
 
 -- Telemetry ping placeholder (simulated)
-spawn(function()
+task.spawn(function()
     task.wait(5)
-    -- Simulated anonymous ping
 end)
 
 
