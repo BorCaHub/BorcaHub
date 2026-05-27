@@ -6,26 +6,59 @@
     ╚═══════════════════════════════════════════════════════════════╝
 --]]
 
-local GITHUB_ROOT = "https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/"
+local GITHUB_ROOT = "https://raw.githubusercontent.com/BorcaHub/BorcaHub/main/"
 
 -- ================================================================
 --  SAFE LOADER HELPER
 -- ================================================================
 
-local function SafeLoadFromGitHub(path)
-    local url = GITHUB_ROOT .. path:gsub(" ", "%%20")
-    local ok, source = pcall(function()
-        return game:HttpGet(url)
-    end)
-    if not ok or not source or #source < 10 or source:find("404: Not Found") then
-        return nil, "Failed to download: " .. path
+local function SafeLoad(path)
+    -- Try local file first (resilient local execution fallback)
+    local localPaths = {
+        path,
+        "BorcaHub/" .. path,
+        "C:/Users/SPIDER X/Downloads/BorcaHub/" .. path
+    }
+    for _, lpath in ipairs(localPaths) do
+        local ok, content = pcall(function()
+            if isfile and isfile(lpath) then
+                return readfile(lpath)
+            end
+        end)
+        if ok and content and #content > 10 then
+            local fn, loadErr = loadstring(content)
+            if fn then
+                return fn
+            end
+        end
     end
-    local fn, loadErr = loadstring(source)
-    if not fn then
-        return nil, "Loadstring error in " .. path .. ": " .. tostring(loadErr)
+
+    -- Try multiple raw GitHub URL variations
+    local urlVariations = {
+        "https://raw.githubusercontent.com/BorCaHub/BorcaHub/main/" .. path:gsub(" ", "%%20"),
+        "https://raw.githubusercontent.com/BorCaHub/BorcaHub/master/" .. path:gsub(" ", "%%20"),
+        "https://raw.githubusercontent.com/borcahub/BorcaHub/main/" .. path:gsub(" ", "%%20")
+    }
+
+    local lastErr = "No connection"
+    for _, url in ipairs(urlVariations) do
+        local ok, source = pcall(function()
+            return game:HttpGet(url)
+        end)
+        if ok and source and #source > 10 and not source:find("404: Not Found") then
+            local fn, loadErr = loadstring(source)
+            if fn then
+                return fn
+            else
+                lastErr = "Loadstring error: " .. tostring(loadErr)
+            end
+        end
     end
-    return fn
+
+    return nil, "Failed to download: " .. path .. " (Error: " .. lastErr .. ")"
 end
+
+local SafeLoadFromGitHub = SafeLoad
 
 -- ================================================================
 --  STEP 1: DETECT GAME
