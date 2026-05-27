@@ -1,8 +1,8 @@
 --[[
-    â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
-    â•‘            BorcaHub  â€¢  ScriptMain / Key / Main.lua          â•‘
-    â•‘  Key Validation System â€” Supabase + Expiry + 1-Player Lock  â•‘
-    â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    ╔═══════════════════════════════════════════════════════════════╗
+    ║            BorcaHub  •  ScriptMain / Key / Main.lua          ║
+    ║  Key Validation System – Supabase + Expiry + 1-Player Lock  ║
+    ╚═══════════════════════════════════════════════════════════════╝
 --]]
 
 local HttpService = game:GetService("HttpService")
@@ -54,7 +54,6 @@ end
 
 local function CacheValid(cache)
     if not cache or not cache.timestamp then return false end
-    -- Juga cek kalau cache punya key yang sama (username match)
     if cache.username and cache.username ~= LocalPlayer.Name then return false end
     return (os.time() - cache.timestamp) < Config.CacheSeconds
 end
@@ -142,13 +141,13 @@ local function ShowKeyPrompt(callback)
     Title.BackgroundTransparency = 1
     Title.Position   = UDim2.new(0, 0, 0, 18)
     Title.Size       = UDim2.new(1, 0, 0, 22)
-    Title.Text       = "ðŸ”‘  BorcaHub â€” Key Required"
+    Title.Text       = "🔒  BorcaHub – Key Required"
     Title.TextColor3 = Color3.fromRGB(238, 238, 252)
     Title.TextSize   = 15
     Title.Font       = Enum.Font.GothamBold
     Title.ZIndex     = 102
 
-    -- Subtitle (shows player name)
+    -- Subtitle
     local Sub = Instance.new("TextLabel", Card)
     Sub.BackgroundTransparency = 1
     Sub.Position   = UDim2.new(0, 0, 0, 44)
@@ -195,7 +194,7 @@ local function ShowKeyPrompt(callback)
     Status.TextXAlignment = Enum.TextXAlignment.Left
     Status.ZIndex         = 102
 
-    -- Expiry label (shown after valid)
+    -- Expiry label
     local ExpiryLabel = Instance.new("TextLabel", Card)
     ExpiryLabel.BackgroundTransparency = 1
     ExpiryLabel.Position       = UDim2.new(0.06, 0, 0, 133)
@@ -225,11 +224,11 @@ local function ShowKeyPrompt(callback)
     local function DoValidate()
         local key = Input.Text:match("^%s*(.-)%s*$")
         if key == "" then
-            Status.Text       = "âš  Masukkan key terlebih dahulu."
+            Status.Text       = "⚠ Masukkan key terlebih dahulu."
             Status.TextColor3 = Color3.fromRGB(255, 183, 64)
             return
         end
-        Status.Text       = "Memvalidasiâ€¦"
+        Status.Text       = "Memvalidasi…"
         Status.TextColor3 = Color3.fromRGB(108, 138, 255)
         ExpiryLabel.Text  = ""
         Btn.Active        = false
@@ -238,7 +237,7 @@ local function ShowKeyPrompt(callback)
         task.spawn(function()
             local result = RemoteValidate(key)
             if result.Valid then
-                Status.Text       = "âœ“ " .. result.Message
+                Status.Text       = "✔ " .. result.Message
                 Status.TextColor3 = Color3.fromRGB(72, 199, 116)
                 ExpiryLabel.Text  = "Expired: " .. tostring(result.Expiry) .. "  |  Tier: " .. result.Tier
                 SafeWrite(Config.SaveFile, key)
@@ -252,7 +251,7 @@ local function ShowKeyPrompt(callback)
                 ScreenGui:Destroy()
                 callback(result, key)
             else
-                Status.Text          = "âœ— " .. result.Message
+                Status.Text          = "✗ " .. result.Message
                 Status.TextColor3    = Color3.fromRGB(255, 80, 80)
                 Btn.Active           = true
                 Btn.BackgroundColor3 = Color3.fromRGB(108, 138, 255)
@@ -280,15 +279,13 @@ function KeySystem:Validate(forceRecheck)
     if not forceRecheck then
         local cache = LoadCache()
         if CacheValid(cache) and cache.result and cache.key then
-            self._key    = cache.key
-            self._result = cache.result
-            print("[KeySystem] Cache valid — Tier:", cache.result.Tier)
-        return cache.result
+            -- FIX: re-validate cache key ke server, jangan langsung return
+            local result = RemoteValidate(cache.key)
             if result.Valid then
                 self._key    = cache.key
                 self._result = result
                 SaveCache({ key = cache.key, result = result, username = LocalPlayer.Name, timestamp = os.time() })
-                print("[KeySystem] Cache valid â€” Tier:", result.Tier, "| Expired:", result.Expiry)
+                print("[KeySystem] Cache valid – Tier:", result.Tier, "| Expired:", result.Expiry)
                 return result
             else
                 warn("[KeySystem] Cache key rejected:", result.Message)
@@ -307,7 +304,7 @@ function KeySystem:Validate(forceRecheck)
                 self._key    = savedKey
                 self._result = result
                 SaveCache({ key = savedKey, result = result, username = LocalPlayer.Name, timestamp = os.time() })
-                print("[KeySystem] Key file valid â€” Tier:", result.Tier, "| Expired:", result.Expiry)
+                print("[KeySystem] Key file valid – Tier:", result.Tier, "| Expired:", result.Expiry)
                 return result
             else
                 warn("[KeySystem] Key file rejected:", result.Message)
@@ -321,6 +318,7 @@ function KeySystem:Validate(forceRecheck)
     local resultHolder = {}
     local done = Instance.new("BindableEvent")
     local timedOut = false
+
     ShowKeyPrompt(function(res, key)
         self._key    = key
         self._result = res
@@ -328,15 +326,15 @@ function KeySystem:Validate(forceRecheck)
         done:Fire()
     end)
 
-    task.delay(300, function() -- 5 menit timeout
+    task.delay(300, function()
         if not timedOut then
             timedOut = true
             done:Fire()
         end
     end)
 
-done.Event:Wait()
-done:Destroy()
+    done.Event:Wait()
+    done:Destroy()
     return resultHolder[1] or { Valid = false, Tier = "None", Message = "Tidak ada key." }
 end
 
@@ -353,4 +351,3 @@ function KeySystem:Reset()
 end
 
 return KeySystem
-
