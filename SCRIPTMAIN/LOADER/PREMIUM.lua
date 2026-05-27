@@ -147,7 +147,7 @@ local NetworkValidator = {}
 function NetworkValidator.Ping()
     local start = tick()
     local ok, res = pcall(function()
-        return HttpService:JSONDecode(game:HttpGet("https://httpbin.org/get"))
+        return game:HttpGet("https://wgdnppyhyypaycznxmmq.supabase.co")
     end)
     return ok, (tick() - start) * 1000
 end
@@ -212,7 +212,7 @@ end
 
 local userTier = keyResult.Tier or "Free"
 
-if userTier ~= "Premium" then
+if userTier:lower() ~= "premium" then
     Notify("BorcaHub", "Ã¢Å¡Â  Your key is " .. userTier .. " tier. Premium access required.", 10)
     warn("[BorcaHub PREMIUM] Key tier is", userTier, "but Premium is required.")
     
@@ -337,7 +337,7 @@ end
 print("Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â")
 
 -- Infinite keep-alive background thread
-spawn(function()
+task.spawn(function()
     while true do
         task.wait(300)
         -- Periodically check memory and sweep remaining key artifacts
