@@ -96,19 +96,135 @@ if tier == "Free" then
 end
 
 -- ================================================================
+--  EMERGENCY ERROR UI HELPER
+-- ================================================================
+
+local function ShowEmergencyUI(title, message)
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name           = "BorcaHub_EmergencyUI"
+    ScreenGui.ResetOnSpawn   = false
+    ScreenGui.DisplayOrder   = 99999
+    ScreenGui.IgnoreGuiInset = true
+
+    local ok = false
+    if not ok then ok = pcall(function() ScreenGui.Parent = game:GetService("CoreGui") end) end
+    if not ok then ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui") end
+
+    -- Overlay background
+    local Overlay = Instance.new("Frame", ScreenGui)
+    Overlay.BackgroundColor3       = Color3.fromRGB(0, 0, 0)
+    Overlay.BackgroundTransparency = 0.5
+    Overlay.Size                   = UDim2.new(1, 0, 1, 0)
+
+    -- Container card
+    local Card = Instance.new("Frame", Overlay)
+    Card.BackgroundColor3 = Color3.fromRGB(18, 18, 27)
+    Card.AnchorPoint      = Vector2.new(0.5, 0.5)
+    Card.Position         = UDim2.new(0.5, 0, 0.5, 0)
+    Card.Size             = UDim2.new(0, 420, 0, 240)
+    Instance.new("UICorner", Card).CornerRadius = UDim.new(0, 10)
+    local Stroke = Instance.new("UIStroke", Card)
+    Stroke.Color     = Color3.fromRGB(255, 75, 75)
+    Stroke.Thickness = 1.6
+
+    -- Title
+    local TxtTitle = Instance.new("TextLabel", Card)
+    TxtTitle.BackgroundTransparency = 1
+    TxtTitle.Position   = UDim2.new(0, 20, 0, 15)
+    TxtTitle.Size       = UDim2.new(1, -40, 0, 24)
+    TxtTitle.Text       = "⚠️  " .. title
+    TxtTitle.TextColor3 = Color3.fromRGB(255, 75, 75)
+    TxtTitle.TextSize   = 16
+    TxtTitle.Font       = Enum.Font.GothamBold
+    TxtTitle.TextXAlignment = Enum.TextXAlignment.Left
+
+    -- Error Message Display
+    local ErrorBg = Instance.new("Frame", Card)
+    ErrorBg.BackgroundColor3 = Color3.fromRGB(28, 24, 24)
+    ErrorBg.Position         = UDim2.new(0.05, 0, 0, 50)
+    ErrorBg.Size             = UDim2.new(0.9, 0, 0, 120)
+    Instance.new("UICorner", ErrorBg).CornerRadius = UDim.new(0, 6)
+    local ErrorStroke = Instance.new("UIStroke", ErrorBg)
+    ErrorStroke.Color     = Color3.fromRGB(80, 40, 40)
+    ErrorStroke.Thickness = 1
+
+    local TxtMsg = Instance.new("TextBox", ErrorBg)
+    TxtMsg.BackgroundTransparency = 1
+    TxtMsg.Position          = UDim2.new(0, 10, 0, 10)
+    TxtMsg.Size              = UDim2.new(1, -20, 1, -20)
+    TxtMsg.Text              = message
+    TxtMsg.TextColor3        = Color3.fromRGB(240, 180, 180)
+    TxtMsg.TextSize          = 12
+    TxtMsg.Font              = Enum.Font.Code
+    TxtMsg.TextWrapped       = true
+    TxtMsg.ClearTextOnFocus  = false
+    TxtMsg.TextEditable      = false
+    TxtMsg.TextXAlignment    = Enum.TextXAlignment.Left
+    TxtMsg.TextYAlignment    = Enum.TextYAlignment.Top
+
+    -- Close Button
+    local CloseBtn = Instance.new("TextButton", Card)
+    CloseBtn.BackgroundColor3 = Color3.fromRGB(255, 75, 75)
+    CloseBtn.Position         = UDim2.new(0.5, -60, 0, 190)
+    CloseBtn.Size             = UDim2.new(0, 120, 0, 32)
+    CloseBtn.Text             = "Dismiss UI"
+    CloseBtn.TextColor3       = Color3.fromRGB(255, 255, 255)
+    CloseBtn.TextSize         = 13
+    CloseBtn.Font             = Enum.Font.GothamBold
+    Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(0, 6)
+
+    CloseBtn.MouseButton1Click:Connect(function()
+        ScreenGui:Destroy()
+    end)
+end
+
+-- ================================================================
 --  STEP 2: DETECT GAME & LOAD SCRIPT
 -- ================================================================
 
+local CheckGameID
 local CheckGameFn, cgErr = SafeLoadFromGitHub("SCRIPTMAIN/SCRIPTS/CHECKGAMEID.lua")
-if not CheckGameFn then
-    warn("[BorcaHub] Failed to load CheckGameID: " .. tostring(cgErr))
-    return
+local detectMethod = "Online Detection"
+
+if CheckGameFn then
+    local checkOk, checkRes = pcall(CheckGameFn)
+    if checkOk and checkRes then
+        CheckGameID = checkRes
+    else
+        cgErr = tostring(checkRes or "Execution failed")
+    end
 end
 
-local CheckGameID = CheckGameFn()
+if not CheckGameID then
+    warn("[BorcaHub] Failed to load CheckGameID online: " .. tostring(cgErr) .. " - Activating offline fallback detection...")
+    detectMethod = "Offline Fallback"
+    CheckGameID = {
+        GetGameEntry = function()
+            local db = {
+                [17625359962] = { Name = "Rivals", Premium = "BorcaHub/SCRIPTMAIN/SCRIPTS/PREMIUM/RIVALS PREMIUM.lua", Free = "BorcaHub/SCRIPTMAIN/SCRIPTS/FREE/RIVALS FREE.lua" },
+                [14143745658] = { Name = "Rivals (Beta)", Premium = "BorcaHub/SCRIPTMAIN/SCRIPTS/PREMIUM/RIVALS PREMIUM.lua", Free = "BorcaHub/SCRIPTMAIN/SCRIPTS/FREE/RIVALS FREE.lua" },
+                [142823291] = { Name = "Murder Mystery 2", Premium = "BorcaHub/SCRIPTMAIN/SCRIPTS/PREMIUM/MM2 PREMIUM.lua", Free = "BorcaHub/SCRIPTMAIN/SCRIPTS/FREE/MM2 FREE.lua" },
+                [286090429] = { Name = "Arsenal", Premium = "BorcaHub/SCRIPTMAIN/SCRIPTS/PREMIUM/ARSENAL PREMIUM.lua", Free = "BorcaHub/SCRIPTMAIN/SCRIPTS/FREE/ARSENAL FREE.lua" },
+                [5765960238] = { Name = "Arsenal (Test Place)", Premium = "BorcaHub/SCRIPTMAIN/SCRIPTS/PREMIUM/ARSENAL PREMIUM.lua", Free = "BorcaHub/SCRIPTMAIN/SCRIPTS/FREE/ARSENAL FREE.lua" }
+            }
+            local entry = db[game.PlaceId]
+            if entry then
+                return entry, "Offline PlaceId"
+            end
+            return {
+                Name = "Universal (Offline Fallback)",
+                Premium = "BorcaHub/SCRIPTMAIN/SCRIPTS/PREMIUM/UNIVERSAL PREMIUM.lua",
+                Free = "BorcaHub/SCRIPTMAIN/SCRIPTS/FREE/UNIVERSAL FREE.lua"
+            }, "Offline Fallback"
+        end
+    end
+end
 
-local gameEntry, detectMethod = CheckGameID.GetGameEntry()
-print("[BorcaHub] Game detected: " .. gameEntry.Name .. " (Method: " .. detectMethod .. ")")
+local gameEntry, methodUsed = CheckGameID.GetGameEntry()
+if detectMethod == "Offline Fallback" then
+    methodUsed = "Offline Fallback (" .. methodUsed .. ")"
+end
+print("[BorcaHub] Game detected: " .. gameEntry.Name .. " (Method: " .. methodUsed .. ")")
 
 -- ================================================================
 --  STEP 3: LOAD PREMIUM SCRIPT
@@ -116,7 +232,9 @@ print("[BorcaHub] Game detected: " .. gameEntry.Name .. " (Method: " .. detectMe
 
 local scriptPath = gameEntry.Premium
 if not scriptPath then
-    warn("[BorcaHub] No Premium script path found for: " .. gameEntry.Name)
+    local errMsg = "No Premium script path configured for detected game: " .. gameEntry.Name
+    warn("[BorcaHub] " .. errMsg)
+    ShowEmergencyUI("Configuration Error", errMsg)
     return
 end
 
@@ -126,14 +244,27 @@ local gitPath = scriptPath:gsub("^BorcaHub/", "")
 print("[BorcaHub] Loading Premium script: " .. gitPath)
 
 local scriptFn, scriptErr = SafeLoadFromGitHub(gitPath)
+
 if not scriptFn then
-    warn("[BorcaHub] Failed to load script: " .. tostring(scriptErr))
-    return
+    warn("[BorcaHub] Failed to load main script: " .. tostring(scriptErr) .. " - Falling back to Universal...")
+    local universalPath = "SCRIPTMAIN/SCRIPTS/PREMIUM/UNIVERSAL PREMIUM.lua"
+    local fallbackFn, fallbackErr = SafeLoadFromGitHub(universalPath)
+    if fallbackFn then
+        scriptFn = fallbackFn
+        print("[BorcaHub] Universal Premium script fallback loaded successfully.")
+    else
+        local criticalErr = "Failed to load main script:\n" .. tostring(scriptErr) .. "\n\nFailed to load Universal fallback:\n" .. tostring(fallbackErr)
+        warn("[BorcaHub] CRITICAL LOAD ERROR:\n" .. criticalErr)
+        ShowEmergencyUI("BorcaHub - Connection / Load Error", criticalErr)
+        return
+    end
 end
 
 local execOk, execErr = pcall(scriptFn)
 if execOk then
     print("[BorcaHub] Premium script loaded successfully for: " .. gameEntry.Name)
 else
-    warn("[BorcaHub] Script execution error: " .. tostring(execErr))
+    local runErr = "Script execution error: " .. tostring(execErr)
+    warn("[BorcaHub] " .. runErr)
+    ShowEmergencyUI("BorcaHub - Execution Error", runErr)
 end

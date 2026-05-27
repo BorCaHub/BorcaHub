@@ -287,6 +287,13 @@ function KeySystem:Validate(forceRecheck)
                 SaveCache({ key = cache.key, result = result, username = LocalPlayer.Name, timestamp = os.time() })
                 print("[KeySystem] Cache valid – Tier:", result.Tier, "| Expired:", result.Expiry)
                 return result
+            elseif result.Message == "Koneksi gagal." or result.Message:find("Server error") or result.Message:find("50") then
+                -- Offline/server error fallback: Accept cache
+                self._key    = cache.key
+                self._result = cache.result
+                warn("[KeySystem] Connection/Server error: " .. tostring(result.Message) .. " - Falling back to cached validation offline.")
+                print("[KeySystem] Cache valid (Offline Fallback) – Tier:", cache.result.Tier, "| Expired:", cache.result.Expiry)
+                return cache.result
             else
                 warn("[KeySystem] Cache key rejected:", result.Message)
                 SafeWrite(Config.CacheFile, "")
@@ -306,6 +313,17 @@ function KeySystem:Validate(forceRecheck)
                 SaveCache({ key = savedKey, result = result, username = LocalPlayer.Name, timestamp = os.time() })
                 print("[KeySystem] Key file valid – Tier:", result.Tier, "| Expired:", result.Expiry)
                 return result
+            elseif result.Message == "Koneksi gagal." or result.Message:find("Server error") or result.Message:find("50") then
+                -- Check if we have any valid cached result in cache file first
+                local cache = LoadCache()
+                if cache and cache.key == savedKey and cache.result then
+                    self._key    = savedKey
+                    self._result = cache.result
+                    warn("[KeySystem] Connection/Server error: " .. tostring(result.Message) .. " - Falling back to cached validation offline.")
+                    print("[KeySystem] Key file valid (Offline Fallback) – Tier:", cache.result.Tier, "| Expired:", cache.result.Expiry)
+                    return cache.result
+                end
+                warn("[KeySystem] Key validation connection failed and no offline cache available.")
             else
                 warn("[KeySystem] Key file rejected:", result.Message)
                 SafeWrite(Config.SaveFile, "")
