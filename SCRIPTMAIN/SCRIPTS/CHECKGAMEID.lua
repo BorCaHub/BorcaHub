@@ -175,6 +175,10 @@ function CheckGameID.Fingerprint.GetWorkspaceHash()
 end
 
 function CheckGameID.Fingerprint.GetLightingProfile()
+    local tech = "Compatibility"
+    pcall(function()
+        tech = tostring(Lighting.Technology)
+    end)
     return {
         Ambient          = tostring(Lighting.Ambient),
         Brightness       = Lighting.Brightness,
@@ -182,7 +186,7 @@ function CheckGameID.Fingerprint.GetLightingProfile()
         FogEnd           = Lighting.FogEnd,
         FogStart         = Lighting.FogStart,
         GlobalShadows    = Lighting.GlobalShadows,
-        Technology       = tostring(Lighting.Technology),
+        Technology       = tech,
     }
 end
 
