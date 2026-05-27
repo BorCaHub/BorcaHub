@@ -320,14 +320,23 @@ function KeySystem:Validate(forceRecheck)
     -- 3. Prompt
     local resultHolder = {}
     local done = Instance.new("BindableEvent")
+    local timedOut = false
     ShowKeyPrompt(function(res, key)
         self._key    = key
         self._result = res
         resultHolder[1] = res
         done:Fire()
     end)
-    done.Event:Wait()
-    done:Destroy()
+
+    task.delay(300, function() -- 5 menit timeout
+        if not timedOut then
+            timedOut = true
+            done:Fire()
+        end
+    end)
+
+done.Event:Wait()
+done:Destroy()
     return resultHolder[1] or { Valid = false, Tier = "None", Message = "Tidak ada key." }
 end
 
