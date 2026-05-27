@@ -312,6 +312,7 @@ end
 -- ====================================================================
 
 local function Ripple(parent, x, y, color)
+    if parent.AbsoluteSize.X == 0 then return end   
     color = color or Color3.fromRGB(255, 255, 255)
     local s = math.max(parent.AbsoluteSize.X, parent.AbsoluteSize.Y) * 2
     local dot = New("Frame", {
@@ -899,19 +900,27 @@ function Library:CreateWindow(opt)
     })
 
     task.spawn(function()
-        local rs = game:GetService("RunService")
         local frames = 0
         local lastTime = os.clock()
-        rs.RenderStepped:Connect(function()
-            frames = frames + 1
-            if os.clock() - lastTime >= 1 then
-                local t = os.date("*t")
-                local hour = t.hour % 12
-                if hour == 0 then hour = 12 end
-                local ampm = t.hour >= 12 and "PM" or "AM"
-                StatusInfo.Text = string.format("FPS: %d   |   %02d:%02d %s", frames, hour, t.min, ampm)
-                frames = 0
-                lastTime = os.clock()
+        local conn
+
+        conn = RunService.RenderStepped:Connect(function()
+            if not WinFrame or not WinFrame.Parent then
+                conn:Disconnect()
+                return
+            end
+
+        frames = frames + 1
+        local now = os.clock()
+
+        if now - lastTime >= 1 then
+            lastTime = now  -- set DULU sebelum reset frames
+            local t = os.date("*t")
+            local hour = t.hour % 12
+            if hour == 0 then hour = 12 end
+            local ampm = t.hour >= 12 and "PM" or "AM"
+            StatusInfo.Text = string.format("FPS: %d   |   %02d:%02d %s", frames, hour, t.min, ampm)
+            frames = 0
             end
         end)
     end)
