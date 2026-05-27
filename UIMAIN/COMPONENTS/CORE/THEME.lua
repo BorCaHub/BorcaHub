@@ -872,16 +872,13 @@ function ThemeEngine.CreateNeonSeparator(parent, theme)
     task.spawn(function()
         local offset    = -1
         local direction = 1
-        while sep and sep.Parent do
-            offset = offset + direction * 0.008
-            if offset >= 1 then
-                direction = -1
-            elseif offset <= -1 then
-                direction = 1
-            end
+        RunService.Heartbeat:Connect(function(dt)
+            if not sep or not sep.Parent then return end
+                offset = offset + direction * (dt * 0.5)
+            if offset >= 1 then direction = -1
+            elseif offset <= -1 then direction = 1 end
             grad.Offset = Vector2.new(offset, 0)
-            task.wait()
-        end
+        end)
     end)
 
     GE:Register(sep, "separator")
