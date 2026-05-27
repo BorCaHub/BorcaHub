@@ -280,8 +280,10 @@ function KeySystem:Validate(forceRecheck)
     if not forceRecheck then
         local cache = LoadCache()
         if CacheValid(cache) and cache.result and cache.key then
-            -- Re-verify against server (silent, background untuk security)
-            local result = RemoteValidate(cache.key)
+            self._key    = cache.key
+            self._result = cache.result
+            print("[KeySystem] Cache valid — Tier:", cache.result.Tier)
+        return cache.result
             if result.Valid then
                 self._key    = cache.key
                 self._result = result
